@@ -2,9 +2,9 @@
   "name": "Status Gallery — Download Status WhatsApp HD",
   "short_name": "Status Gallery",
   "description": "Cari dan download gambar HD untuk Status WhatsApp: motivasi, lucu, islami, quotes, dan lainnya.",
-  "id": "/",
-  "start_url": "/index.html?source=pwa",
-  "scope": "/",
+  "id": "./",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "portrait-primary",
@@ -24,14 +24,14 @@
       "name": "Trending",
       "short_name": "Trending",
       "description": "Lihat gambar status yang lagi trending",
-      "url": "/index.html?nav=trending",
+      "url": "./index.html?nav=trending",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Favorit",
       "short_name": "Favorit",
       "description": "Buka koleksi favorit kamu",
-      "url": "/index.html?nav=favorit",
+      "url": "./index.html?nav=favorit",
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
