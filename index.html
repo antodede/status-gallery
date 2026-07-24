@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Status Gallery — Download Gambar Status WhatsApp HD Gratis</title>
+<meta name="description" content="Cari dan download gambar HD untuk Status WhatsApp: motivasi, lucu, islami, quotes, dan lainnya. Cepat, gratis, tanpa ribet.">
+<meta name="theme-color" content="#0D8B5B" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1210" media="(prefers-color-scheme: dark)">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="icon" href="icons/favicon.ico">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Status Gallery">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="preconnect" href="https://picsum.photos">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --primary:#0D8B5B;
+  --primary-d:#0a6f49;
+  --secondary:#12B76A;
+  --accent:#FFC107;
+  --bg:#F7F8FA;
+  --card:#FFFFFF;
+  --text:#12181A;
+  --text-dim:#6B7580;
+  --text-faint:#9AA3AC;
+  --border:rgba(13,26,20,0.07);
+  --glass-bg:rgba(255,255,255,0.72);
+  --glass-border:rgba(255,255,255,0.5);
+  --shadow-sm:0 2px 10px rgba(16,24,20,0.06);
+  --shadow-md:0 10px 30px rgba(13,60,40,0.10);
+  --shadow-lg:0 20px 60px rgba(13,40,28,0.18);
+  --radius-sm:12px;
+  --radius-md:18px;
+  --radius-lg:26px;
+  --radius-pill:999px;
+  --grad-brand:linear-gradient(135deg,#0D8B5B 0%,#12B76A 55%,#3FD98A 100%);
+  --grad-accent:linear-gradient(135deg,#FFC107 0%,#FFB300 100%);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-top:env(safe-area-inset-top,0px);
+  --nav-h:64px;
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --bg:#0B1210;
+  --card:#131C19;
+  --text:#EDF3F0;
+  --text-dim:#9FB0A9;
+  --text-faint:#6E7F78;
+  --border:rgba(255,255,255,0.08);
+  --glass-bg:rgba(19,28,25,0.66);
+  --glass-border:rgba(255,255,255,0.08);
+  --shadow-sm:0 2px 10px rgba(0,0,0,0.35);
+  --shadow-md:0 10px 30px rgba(0,0,0,0.45);
+  --shadow-lg:0 24px 70px rgba(0,0,0,0.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 10px);
+  transition:background .35s ease,color .35s ease;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.brand{font-family:'Sora',sans-serif;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--accent);color:#151515;}
+.container{max-width:1280px;margin:0 auto;padding:0 16px;}
+@media(min-width:900px){.container{padding:0 32px;}}
+
+/* ---------- Skip link ---------- */
+.skip-link{position:absolute;top:-60px;left:8px;background:var(--primary);color:#fff;padding:10px 16px;border-radius:var(--radius-sm);z-index:999;transition:top .2s;}
+.skip-link:focus{top:8px;}
+
+/* ---------- Top progress bar ---------- */
+#scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--grad-brand);z-index:1000;width:0%;transition:width .1s linear;}
+
+/* ---------- Header ---------- */
+header.app-header{
+  position:sticky;top:0;z-index:60;
+  padding:calc(var(--safe-top) + 10px) 0 10px;
+  transition:padding .3s ease;
+}
+.header-inner{
+  margin:0 12px;
+  background:var(--glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px 9px 14px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+}
+header.app-header.shrink{padding-top:calc(var(--safe-top) + 4px);}
+header.app-header.shrink .header-inner{padding:6px 8px 6px 12px;box-shadow:var(--shadow-md);}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;flex-shrink:0;}
+.brand-mark{width:30px;height:30px;border-radius:10px;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 4px 10px rgba(13,139,91,.35);flex-shrink:0;}
+.brand-text{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.2px;}
+.header-search{
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius-pill);padding:9px 14px;
+  color:var(--text-faint);font-size:13.5px;font-weight:500;
+  transition:box-shadow .2s;
+}
+.header-search:active{box-shadow:0 0 0 3px rgba(13,139,91,.15);}
+.icon-btn{
+  width:38px;height:38px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;flex-shrink:0;color:var(--text);
+  background:transparent;transition:background .2s,transform .15s;
+}
+.icon-btn:active{transform:scale(.9);background:var(--border);}
+
+/* ---------- Hero ---------- */
+.hero{padding:22px 0 6px;position:relative;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(13,139,91,.1);color:var(--primary);
+  font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:var(--radius-pill);
+  margin-bottom:14px;letter-spacing:.2px;
+}
+[data-theme="dark"] .hero-badge{background:rgba(63,217,138,.15);color:#5FE8A6;}
+.hero h1{
+  font-size:clamp(24px,6.2vw,34px);
+  line-height:1.14;font-weight:800;letter-spacing:-0.5px;
+  margin-bottom:10px;
+}
+.hero h1 span{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p{color:var(--text-dim);font-size:14.5px;line-height:1.55;margin-bottom:18px;max-width:520px;}
+.hero-actions{display:flex;gap:10px;margin-bottom:22px;}
+.btn{
+  border-radius:var(--radius-pill);padding:13px 22px;font-weight:700;font-size:14px;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  transition:transform .15s,box-shadow .2s;white-space:nowrap;
+}
+.btn:active{transform:scale(.96);}
+.btn-primary{background:var(--grad-brand);color:#fff;box-shadow:0 10px 24px rgba(13,139,91,.32);}
+.btn-ghost{background:var(--card);color:var(--text);border:1px solid var(--border);}
+
+.hero-strip{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 0 10px;-ms-overflow-style:none;scrollbar-width:none;}
+.hero-strip::-webkit-scrollbar{display:none;}
+.hero-strip .strip-card{
+  scroll-snap-align:start;flex-shrink:0;width:118px;height:172px;border-radius:var(--radius-md);
+  overflow:hidden;position:relative;box-shadow:var(--shadow-sm);background:var(--card);
+}
+.hero-strip .strip-card img{width:100%;height:100%;object-fit:cover;}
+@media(min-width:900px){.hero-strip .strip-card{width:150px;height:210px;}}
+
+/* ---------- Section heading ---------- */
+.section{padding:26px 0 4px;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-head h2{font-size:18px;font-weight:800;letter-spacing:-0.2px;display:flex;align-items:center;gap:8px;}
+.section-head .see-all{font-size:12.5px;font-weight:700;color:var(--primary);}
+
+/* ---------- Categories ---------- */
+.cat-scroll{display:flex;gap:10px;overflow-x:auto;padding:2px 0 8px;-ms-overflow-style:none;scrollbar-width:none;}
+.cat-scroll::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;display:flex;align-items:center;gap:7px;
+  padding:9px 16px 9px 10px;border-radius:var(--radius-pill);
+  background:var(--card);border:1px solid var(--border);font-size:13px;font-weight:700;
+  transition:all .2s;
+}
+.chip .chip-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;}
+.chip.active{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(13,139,91,.3);}
+.chip.active .chip-ic{background:rgba(255,255,255,.25);}
+.chip:active{transform:scale(.95);}
+.chip-skeleton{width:96px;height:38px;border-radius:var(--radius-pill);flex-shrink:0;}
+
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+@media(min-width:640px){.cat-grid{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:900px){.cat-grid{grid-template-columns:repeat(6,1fr);}}
+.cat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:16px 10px;text-align:center;transition:transform .15s,box-shadow .2s;
+}
+.cat-card:active{transform:scale(.95);}
+.cat-card .cat-ic{width:44px;height:44px;border-radius:14px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;}
+.cat-card span{font-size:12.5px;font-weight:700;display:block;}
+.cat-card small{font-size:10.5px;color:var(--text-faint);font-weight:600;}
+
+/* ---------- Trending ---------- */
+.trend-scroll{display:flex;gap:14px;overflow-x:auto;padding:4px 0 10px;scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none;}
+.trend-scroll::-webkit-scrollbar{display:none;}
+.trend-card{
+  scroll-snap-align:start;flex-shrink:0;width:150px;position:relative;border-radius:var(--radius-lg);
+  overflow:hidden;box-shadow:var(--shadow-md);aspect-ratio:3/4.6;background:var(--card);
+  transition:transform .25s;
+}
+.trend-card:active{transform:scale(.95);}
+.trend-card img{width:100%;height:100%;object-fit:cover;}
+.trend-rank{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:800;padding:4px 9px;border-radius:var(--radius-pill);}
+.trend-info{position:absolute;left:0;right:0;bottom:0;padding:14px 12px 12px;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);color:#fff;}
+.trend-info b{font-size:13px;display:block;}
+.trend-info small{font-size:10.5px;opacity:.85;}
+@media(min-width:900px){.trend-card{width:190px;}}
+
+/* ---------- Masonry gallery ---------- */
+.masonry{column-count:2;column-gap:12px;}
+@media(min-width:560px){.masonry{column-count:3;}}
+@media(min-width:860px){.masonry{column-count:4;}}
+@media(min-width:1120px){.masonry{column-count:5;}}
+@media(min-width:1400px){.masonry{column-count:6;}}
+.g-card{
+  break-inside:avoid;margin-bottom:12px;border-radius:var(--radius-md);overflow:hidden;
+  background:var(--card);box-shadow:var(--shadow-sm);position:relative;
+  opacity:0;transform:translateY(14px);animation:cardIn .5s ease forwards;
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0);}}
+.g-card .img-wrap{position:relative;overflow:hidden;background:var(--border);}
+.g-card img{width:100%;display:block;transition:transform .4s ease,filter .5s ease;}
+.g-card:active img{transform:scale(1.04);}
+@media(hover:hover){.g-card:hover img{transform:scale(1.06);}}
+.g-card .fav-btn{
+  position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;
+  background:rgba(15,20,18,.4);backdrop-filter:blur(6px);color:#fff;font-size:15px;
+  display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;z-index:2;
+}
+.g-card .fav-btn.active{background:var(--accent);color:#151515;}
+.g-card .fav-btn:active{transform:scale(.85);}
+.g-card .cat-tag{position:absolute;top:8px;left:8px;font-size:9.5px;font-weight:800;color:#fff;background:rgba(15,20,18,.4);backdrop-filter:blur(6px);padding:4px 9px;border-radius:var(--radius-pill);z-index:2;letter-spacing:.2px;}
+.g-card .meta{padding:9px 10px 11px;}
+.g-card .meta b{font-size:12.5px;font-weight:700;display:block;margin-bottom:4px;line-height:1.3;}
+.g-card .meta .stats{display:flex;gap:10px;font-size:10.5px;color:var(--text-faint);font-weight:600;}
+
+.skeleton{background:linear-gradient(100deg,var(--border) 30%,rgba(255,255,255,.5) 50%,var(--border) 70%);background-size:200% 100%;animation:shimmer 1.4s infinite;}
+[data-theme="dark"] .skeleton{background:linear-gradient(100deg,#1b2723 30%,#26362f 50%,#1b2723 70%);background-size:200% 100%;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.sk-card{break-inside:avoid;margin-bottom:12px;border-radius:var(--radius-md);overflow:hidden;}
+.sk-card .sk-img{width:100%;}
+
+.loader-row{display:flex;justify-content:center;padding:26px 0;}
+.spinner{width:26px;height:26px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--primary);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  padding-bottom:var(--safe-bottom);
+  background:var(--glass-bg);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-top:1px solid var(--glass-border);
+  display:flex;justify-content:space-around;align-items:center;height:var(--nav-h);
+}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text-faint);font-size:10px;font-weight:700;flex:1;padding:6px 0;transition:color .2s;position:relative;}
+.nav-item .nav-ic{font-size:19px;transition:transform .2s;}
+.nav-item.active{color:var(--primary);}
+.nav-item.active .nav-ic{transform:translateY(-2px);}
+.nav-item:active .nav-ic{transform:scale(.85);}
+.nav-fab{
+  width:52px;height:52px;border-radius:50%;background:var(--grad-brand);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;
+  box-shadow:0 10px 22px rgba(13,139,91,.4);margin-top:-26px;flex-shrink:0;
+  transition:transform .2s;
+}
+.nav-fab:active{transform:scale(.88);}
+
+@media(min-width:900px){.bottom-nav{display:none;}body{padding-bottom:40px;}}
+
+/* ---------- Filter bottom sheet ---------- */
+.sheet-overlay{position:fixed;inset:0;background:rgba(6,12,9,.5);backdrop-filter:blur(2px);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s;}
+.sheet-overlay.show{opacity:1;pointer-events:auto;}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:91;background:var(--card);
+  border-radius:24px 24px 0 0;padding:10px 20px calc(20px + var(--safe-bottom));
+  transform:translateY(105%);transition:transform .32s cubic-bezier(.32,.72,0,1);
+  max-height:82vh;overflow-y:auto;box-shadow:0 -20px 60px rgba(0,0,0,.25);
+}
+.sheet.show{transform:translateY(0);}
+.sheet-handle{width:38px;height:4px;background:var(--border);border-radius:99px;margin:6px auto 14px;}
+.sheet h3{font-size:17px;font-weight:800;margin-bottom:16px;}
+.sheet-group{margin-bottom:18px;}
+.sheet-group .label{font-size:12px;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px;}
+.pill-group{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{padding:9px 15px;border-radius:var(--radius-pill);background:var(--bg);border:1px solid var(--border);font-size:12.5px;font-weight:700;transition:all .2s;}
+.pill.active{background:var(--grad-brand);color:#fff;border-color:transparent;}
+.sheet-actions{display:flex;gap:10px;margin-top:6px;}
+.sheet-actions .btn{flex:1;}
+
+/* ---------- Auth sheet ---------- */
+.auth-msg{font-size:12.5px;color:var(--text-dim);background:var(--bg);border-radius:var(--radius-sm);padding:11px 14px;margin-bottom:16px;line-height:1.5;}
+.auth-tabs{display:flex;background:var(--bg);border-radius:var(--radius-pill);padding:4px;margin-bottom:18px;gap:4px;}
+.auth-tab{flex:1;padding:9px 0;border-radius:var(--radius-pill);font-size:13px;font-weight:700;color:var(--text-dim);text-align:center;transition:all .2s;}
+.auth-tab.active{background:var(--card);color:var(--primary);box-shadow:var(--shadow-sm);}
+.btn-google{background:var(--card);color:var(--text);border:1px solid var(--border);width:100%;margin-bottom:16px;}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:0 0 16px;color:var(--text-faint);font-size:11.5px;font-weight:700;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.auth-field{margin-bottom:12px;}
+.auth-field label{display:block;font-size:11.5px;font-weight:700;color:var(--text-dim);margin-bottom:6px;}
+.auth-field input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;outline:none;transition:box-shadow .2s;}
+.auth-field input:focus{box-shadow:0 0 0 3px rgba(13,139,91,.15);}
+.auth-error{font-size:12px;font-weight:600;color:#E0433D;background:rgba(224,67,61,.1);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:12px;display:none;}
+.auth-error.show{display:block;}
+.auth-tnc{font-size:11px;color:var(--text-faint);line-height:1.5;margin-top:14px;text-align:center;}
+.auth-tnc a{color:var(--primary);font-weight:700;}
+.auth-submit-btn{width:100%;margin-top:4px;}
+.auth-submit-btn:disabled{opacity:.65;pointer-events:none;}
+
+/* Profile view inside sheet */
+.profile-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.profile-avatar{width:52px;height:52px;border-radius:50%;background:var(--grad-brand);color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;}
+.profile-info b{display:block;font-size:15px;font-weight:800;margin-bottom:2px;word-break:break-all;}
+.profile-info span{font-size:12px;color:var(--text-faint);font-weight:600;}
+.profile-menu{display:flex;flex-direction:column;gap:8px;}
+.profile-menu-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:var(--radius-sm);background:var(--bg);font-size:13.5px;font-weight:700;transition:background .2s;width:100%;text-align:left;}
+.profile-menu-item:active{background:var(--border);}
+.profile-menu-item.danger{color:#E0433D;}
+
+/* Header avatar button */
+.header-avatar{width:38px;height:38px;border-radius:50%;background:var(--grad-brand);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;transition:transform .15s;}
+.header-avatar:active{transform:scale(.9);}
+.header-avatar img{width:100%;height:100%;object-fit:cover;}
+
+/* ---------- Search overlay ---------- */
+.search-overlay{position:fixed;inset:0;background:var(--bg);z-index:95;transform:translateY(-100%);transition:transform .3s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;}
+.search-overlay.show{transform:translateY(0);}
+.search-top{display:flex;align-items:center;gap:10px;padding:calc(var(--safe-top) + 14px) 16px 12px;}
+.search-input-wrap{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-pill);padding:11px 16px;}
+.search-input-wrap input{flex:1;border:none;background:none;outline:none;font-size:14.5px;color:var(--text);font-weight:500;font-family:inherit;}
+.search-body{flex:1;overflow-y:auto;padding:6px 16px 30px;}
+.search-body h4{font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.4px;margin:16px 0 10px;}
+.recent-item{display:flex;align-items:center;gap:10px;padding:11px 4px;font-size:13.5px;font-weight:600;border-bottom:1px solid var(--border);}
+.recent-item .r-ic{color:var(--text-faint);}
+.sugg-grid{display:flex;flex-wrap:wrap;gap:8px;}
+
+/* ---------- Modal ---------- */
+.modal-overlay{position:fixed;inset:0;background:rgba(4,10,7,.86);z-index:120;opacity:0;pointer-events:none;transition:opacity .3s;display:flex;align-items:flex-end;justify-content:center;}
+.modal-overlay.show{opacity:1;pointer-events:auto;}
+@media(min-width:760px){.modal-overlay{align-items:center;}}
+.modal{
+  width:100%;max-width:520px;background:var(--card);border-radius:26px 26px 0 0;
+  max-height:92vh;overflow-y:auto;transform:translateY(40px);transition:transform .35s cubic-bezier(.32,.72,0,1);
+  padding-bottom:calc(20px + var(--safe-bottom));
+}
+.modal-overlay.show .modal{transform:translateY(0);}
+@media(min-width:760px){.modal{border-radius:26px;max-height:88vh;}}
+.modal-img-wrap{position:relative;background:var(--bg);}
+.modal-img-wrap img{width:100%;max-height:56vh;object-fit:contain;background:#0d1512;}
+.modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.modal-body{padding:18px 20px 6px;}
+.modal-body h3{font-size:18px;font-weight:800;margin-bottom:4px;}
+.modal-body .modal-sub{font-size:12.5px;color:var(--text-faint);font-weight:600;margin-bottom:16px;}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
+.modal-stats .stat{background:var(--bg);border-radius:var(--radius-sm);padding:11px 8px;text-align:center;}
+.modal-stats .stat b{display:block;font-size:14px;font-weight:800;}
+.modal-stats .stat span{font-size:10px;color:var(--text-faint);font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
+.tag{font-size:11px;font-weight:700;color:var(--primary);background:rgba(13,139,91,.1);padding:6px 12px;border-radius:var(--radius-pill);}
+[data-theme="dark"] .tag{background:rgba(63,217,138,.15);color:#5FE8A6;}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.modal-actions .btn{width:100%;}
+.modal-sec-actions{display:flex;gap:10px;}
+.modal-sec-actions .icon-btn{flex:1;background:var(--bg);border-radius:var(--radius-md);height:44px;width:auto;border:1px solid var(--border);}
+
+/* ---------- Toast ---------- */
+#toast{
+  position:fixed;left:50%;bottom:calc(var(--nav-h) + var(--safe-bottom) + 18px);
+  transform:translateX(-50%) translateY(20px);background:#151515;color:#fff;
+  padding:12px 20px;border-radius:var(--radius-pill);font-size:13px;font-weight:600;
+  z-index:200;opacity:0;transition:all .3s cubic-bezier(.32,.72,0,1);box-shadow:0 10px 30px rgba(0,0,0,.3);
+  display:flex;align-items:center;gap:8px;pointer-events:none;white-space:nowrap;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ---------- Empty state ---------- */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-dim);}
+.empty-state .em-ic{font-size:44px;margin-bottom:14px;}
+.empty-state h4{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.empty-state p{font-size:13px;}
+
+/* ---------- Footer (desktop) ---------- */
+.footer{display:none;}
+@media(min-width:900px){
+  .footer{display:block;margin-top:50px;padding:36px 0;border-top:1px solid var(--border);color:var(--text-faint);font-size:12.5px;text-align:center;}
+}
+
+.ripple{position:relative;overflow:hidden;}
+.ripple-el{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:ripple .55s ease-out;pointer-events:none;}
+@keyframes ripple{to{transform:scale(3);opacity:0;}}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001s !important;transition-duration:.001s !important;scroll-behavior:auto !important;}}
+
+/* ---------- Install App banner ---------- */
+.install-banner{
+  position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + var(--safe-bottom) + 12px);z-index:80;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);padding:14px;display:flex;align-items:center;gap:12px;
+  transform:translateY(140%);transition:transform .35s cubic-bezier(.32,.72,0,1);
+}
+.install-banner.show{transform:translateY(0);}
+.install-banner .ib-ic{width:44px;height:44px;border-radius:13px;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 6px 16px rgba(13,139,91,.3);}
+.install-banner .ib-text{flex:1;min-width:0;}
+.install-banner .ib-text b{font-size:13px;display:block;}
+.install-banner .ib-text span{font-size:11px;color:var(--text-faint);font-weight:600;}
+.install-banner .ib-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.install-banner .ib-install{background:var(--grad-brand);color:#fff;font-size:12px;font-weight:700;padding:8px 14px;border-radius:var(--radius-pill);white-space:nowrap;}
+.install-banner .ib-dismiss{font-size:11px;font-weight:700;color:var(--text-faint);padding:4px;}
+@media(min-width:900px){.install-banner{left:auto;right:24px;bottom:24px;width:320px;}}
+
+.update-toast{
+  position:fixed;top:calc(var(--safe-top) + 14px);left:50%;transform:translateX(-50%) translateY(-140%);
+  z-index:150;background:var(--text);color:var(--bg);padding:10px 16px;border-radius:var(--radius-pill);
+  font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md);
+  transition:transform .35s cubic-bezier(.32,.72,0,1);
+}
+.update-toast.show{transform:translateX(-50%) translateY(0);}
+.update-toast button{background:var(--grad-brand);color:#fff;padding:6px 12px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:800;}
+</style>
+</head>
+<body>
+<a href="#gallery" class="skip-link">Langsung ke galeri</a>
+<div id="scroll-progress"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="app-header" id="appHeader">
+  <div class="container">
+    <div class="header-inner">
+      <div class="brand"><span class="brand-mark">🖼️</span><span class="brand-text">Status Gallery</span></div>
+      <button class="header-search" id="openSearchBtn" aria-label="Cari gambar">
+        <span>🔍</span><span id="headerSearchLabel">Cari motivasi, lucu, quotes...</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" aria-label="Ganti tema">🌙</button>
+      <button class="header-avatar" id="accountBtn" aria-label="Akun">👤</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <span class="hero-badge">✨ 12.000+ gambar HD siap unduh</span>
+    <h1>Download Gambar <span>Status WhatsApp</span> HD Gratis</h1>
+    <p>Temukan gambar motivasi, kata-kata lucu, quotes, dan islami dalam hitungan detik — langsung unduh, langsung bagikan.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="heroSearchBtn">🔍 Cari Gambar</button>
+      <button class="btn btn-ghost" id="heroCatBtn">📂 Kategori</button>
+    </div>
+    <div class="hero-strip" id="heroStrip"></div>
+  </section>
+
+  <!-- ================= CATEGORY CHIPS ================= -->
+  <section class="section">
+    <div class="section-head"><h2>📂 Kategori</h2></div>
+    <div class="cat-scroll" id="catScroll"></div>
+  </section>
+
+  <!-- ================= TRENDING ================= -->
+  <section class="section">
+    <div class="section-head">
+      <h2>🔥 Trending Hari Ini</h2>
+      <button class="see-all" id="seeAllTrend">Lihat semua</button>
+    </div>
+    <div class="trend-scroll" id="trendScroll"></div>
+  </section>
+
+  <!-- ================= FOR YOU CHIPS (rekomendasi) ================= -->
+  <section class="section" style="padding-top:6px;">
+    <div class="cat-scroll" id="recoScroll"></div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section class="section" id="gallery">
+    <div class="section-head">
+      <h2 id="galleryTitle">🖼️ Semua Gambar</h2>
+      <button class="see-all" id="openFilterBtn">⚙️ Filter</button>
+    </div>
+    <div class="masonry" id="masonry"></div>
+    <div class="loader-row" id="loaderRow"><div class="spinner"></div></div>
+    <div id="emptyState" style="display:none;"></div>
+  </section>
+
+  <div class="footer container">
+    Status Gallery — Dibuat untuk kamu yang butuh status kece dalam hitungan detik. © 2026
+  </div>
+</main>
+
+<!-- ================= BOTTOM NAV ================= -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-nav="home"><span class="nav-ic">🏠</span>Home</button>
+  <button class="nav-item" data-nav="trending"><span class="nav-ic">🔥</span>Trending</button>
+  <button class="nav-fab" id="navSearchFab">🔍</button>
+  <button class="nav-item" data-nav="kategori"><span class="nav-ic">📂</span>Kategori</button>
+  <button class="nav-item" data-nav="favorit"><span class="nav-ic">❤️</span>Favorit</button>
+</nav>
+
+<!-- ================= FILTER SHEET ================= -->
+<div class="sheet-overlay" id="filterOverlay"></div>
+<div class="sheet" id="filterSheet">
+  <div class="sheet-handle"></div>
+  <h3>⚙️ Filter Gambar</h3>
+  <div class="sheet-group">
+    <div class="label">Kategori</div>
+    <div class="pill-group" id="filterCatGroup"></div>
+  </div>
+  <div class="sheet-group">
+    <div class="label">Orientasi</div>
+    <div class="pill-group" id="filterOrientGroup">
+      <button class="pill active" data-val="all">Semua</button>
+      <button class="pill" data-val="portrait">📱 Portrait</button>
+      <button class="pill" data-val="landscape">🖥️ Landscape</button>
+      <button class="pill" data-val="square">◼️ Square</button>
+    </div>
+  </div>
+  <div class="sheet-group">
+    <div class="label">Urutkan</div>
+    <div class="pill-group" id="filterSortGroup">
+      <button class="pill active" data-val="terbaru">🆕 Terbaru</button>
+      <button class="pill" data-val="populer">👁️ Populer</button>
+      <button class="pill" data-val="download">⬇️ Terbanyak Download</button>
+    </div>
+  </div>
+  <div class="sheet-actions">
+    <button class="btn btn-ghost" id="resetFilterBtn">Reset</button>
+    <button class="btn btn-primary" id="applyFilterBtn">Terapkan</button>
+  </div>
+</div>
+
+<!-- ================= AUTH / PROFILE SHEET ================= -->
+<div class="sheet-overlay" id="authOverlay"></div>
+<div class="sheet" id="authSheet">
+  <div class="sheet-handle"></div>
+  <div id="authSheetBody"><!-- diisi dinamis oleh renderAuthSheet() --></div>
+</div>
+
+<!-- ================= SEARCH OVERLAY ================= -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-top">
+    <div class="search-input-wrap">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="Cari motivasi, lucu, islami, quotes..." autocomplete="off">
+    </div>
+    <button class="icon-btn" id="closeSearchBtn">✕</button>
+  </div>
+  <div class="search-body">
+    <div id="recentWrap">
+      <h4>Pencarian Terakhir</h4>
+      <div id="recentList"></div>
+    </div>
+    <h4>Sedang Dicari</h4>
+    <div class="sugg-grid" id="suggGrid"></div>
+  </div>
+</div>
+
+<!-- ================= IMAGE MODAL ================= -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <div class="modal-img-wrap">
+      <button class="modal-close" id="modalCloseBtn">✕</button>
+      <img id="modalImg" alt="" loading="lazy">
+    </div>
+    <div class="modal-body">
+      <h3 id="modalTitle"></h3>
+      <div class="modal-sub" id="modalSub"></div>
+      <div class="modal-stats">
+        <div class="stat"><b id="statRes">—</b><span>Resolusi</span></div>
+        <div class="stat"><b id="statSize">—</b><span>Ukuran</span></div>
+        <div class="stat"><b id="statDl">—</b><span>Download</span></div>
+      </div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="modalDownloadBtn">⬇️ Download HD</button>
+        <button class="btn btn-ghost" id="modalShareBtn">📤 Bagikan ke WA</button>
+      </div>
+      <div class="modal-sec-actions">
+        <button class="icon-btn" id="modalCopyBtn">🔗 Copy Link</button>
+        <button class="icon-btn" id="modalFavBtn">🤍 Favorite</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ================= PWA INSTALL BANNER ================= -->
+<div class="install-banner" id="installBanner">
+  <div class="ib-ic">🖼️</div>
+  <div class="ib-text"><b>Pasang Status Gallery</b><span>Akses lebih cepat langsung dari layar utama</span></div>
+  <div class="ib-actions">
+    <button class="ib-install" id="ibInstallBtn">Pasang</button>
+    <button class="ib-dismiss" id="ibDismissBtn">Nanti saja</button>
+  </div>
+</div>
+
+<!-- ================= PWA UPDATE TOAST ================= -->
+<div class="update-toast" id="updateToast">
+  🔄 Versi baru tersedia <button id="updateReloadBtn">Perbarui</button>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ SUPABASE CONFIG ============
+   Pakai project Supabase yang sama dengan admin.html. Kalau perlu
+   ganti project, ubah juga di admin.html supaya tetap sinkron. */
+var CONFIG = {
+  SUPABASE_URL: "https://zffpheohnegwvvgcngfo.supabase.co",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmZnBoZW9obmVnd3Z2Z2NuZ2ZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NzAwNDAsImV4cCI6MjEwMDQ0NjA0MH0.iKH6GnPh6YKckrG0f65rdIShvrqxhUIoWSb1og120rc",
+  CATEGORIES_TABLE: "categories",
+  IMAGES_TABLE: "images"
+};
+var configOk = CONFIG.SUPABASE_URL.indexOf("YOUR-PROJECT")===-1 && CONFIG.SUPABASE_ANON_KEY.indexOf("YOUR-ANON")===-1;
+var supabase = (configOk && window.supabase) ? window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY) : null;
+
+/* ============ DATA ============ */
+/* Dipakai sebagai cadangan kalau tabel `categories` di Supabase
+   belum ada isinya atau gagal dimuat (mis. offline). */
+var DEFAULT_CATEGORIES = [
+  {id:"motivasi",name:"Motivasi",icon:"💪",color:"#0D8B5B"},
+  {id:"lucu",name:"Lucu",icon:"😂",color:"#FFC107"},
+  {id:"islami",name:"Islami",icon:"🕌",color:"#12B76A"},
+  {id:"anime",name:"Anime",icon:"🎌",color:"#EE6C9B"},
+  {id:"romantis",name:"Romantis",icon:"💗",color:"#F4568B"},
+  {id:"sedih",name:"Sedih",icon:"🌧️",color:"#5B7FBF"},
+  {id:"ucapan",name:"Ucapan",icon:"✉️",color:"#8B5CF6"},
+  {id:"hariraya",name:"Hari Raya",icon:"🎉",color:"#F97316"},
+  {id:"gaming",name:"Gaming",icon:"🎮",color:"#6366F1"},
+  {id:"quotes",name:"Quotes",icon:"💬",color:"#0EA5A4"},
+  {id:"teknologi",name:"Teknologi",icon:"💻",color:"#334155"},
+  {id:"estetik",name:"Estetik",icon:"🌸",color:"#D946AA"}
+];
+var CATEGORIES = [];
+var CAT_BY_ID = {};
+function setCategories(list){
+  CATEGORIES = list;
+  CAT_BY_ID = {};
+  CATEGORIES.forEach(function(c){CAT_BY_ID[c.id]=c;});
+}
+
+var TITLE_WORDS = {
+  motivasi:["Semangat Pagi","Never Give Up","Jangan Menyerah","Bangkit Lagi","Fokus Tujuan","Percaya Proses"],
+  lucu:["Meme Receh","Ngakak Bareng","Status Kocak","Julid Dikit","Random Ngawur","Bucin Garing"],
+  islami:["Kalam Hikmah","Kutipan Hadits","Kata Bijak Islami","Renungan Jumat","Sabar & Ikhlas","Doa Harian"],
+  anime:["Sakura Vibes","Anime Aesthetic","Senja Shinjuku","Waifu Mode","Ghibli Feels","Manga Panel"],
+  romantis:["Cinta Sejati","Rindu Ini","Kata Manis","Untukmu Sayang","Love Note","Peluk Hangat"],
+  sedih:["Hujan Rindu","Sendu Malam","Patah Hati","Kelabu Rasa","Diam & Luka","Senja Sepi"],
+  ucapan:["Selamat Ulang Tahun","Terima Kasih","Selamat Wisuda","Ucapan Duka","Selamat Menikah","Sukses Selalu"],
+  hariraya:["Selamat Lebaran","Mohon Maaf Lahir Batin","Natal Ceria","Tahun Baru","Kemerdekaan RI","Nyepi Damai"],
+  gaming:["Mobile Legend Vibes","Gamer Sejati","Level Up","GG Bro","Push Rank","Respawn Point"],
+  quotes:["Kata Hari Ini","Quote Random","Wisdom Kecil","Renungan Diri","Pikiran Positif","Kutipan Inspiratif"],
+  teknologi:["Coding Mood","Dark Mode Life","Tech Vibes","Debug Sabar","Startup Grind","Digital Era"],
+  estetik:["Golden Hour","Minimalis Estetik","Pastel Dream","Cloudy Mood","Soft Aesthetic","Neon Nights"]
+};
+var DEFAULT_TITLE_WORDS = ["Status Hari Ini","Kata Kata Keren","Vibes Baru","Mood Kece","Untuk Kamu","Pilihan Favorit"];
+
+function seedRandom(seed){var x=Math.sin(seed)*10000;return x-Math.floor(x);}
+function rnd(seed,min,max){return Math.floor(seedRandom(seed)*(max-min+1))+min;}
+
+/* Mock generator dipakai HANYA sebagai cadangan kalau Supabase gagal
+   dihubungi (mis. offline / config belum diisi), supaya situs tetap
+   bisa dipakai untuk pratinjau/demo. */
+function buildMockImage(idx){
+  var cat = CATEGORIES[idx % CATEGORIES.length];
+  var words = TITLE_WORDS[cat.id] || DEFAULT_TITLE_WORDS;
+  var title = words[idx % words.length];
+  var orientations = ["portrait","portrait","square","landscape"];
+  var orient = orientations[idx % orientations.length];
+  var w = orient==="landscape"?800:(orient==="square"?720:640);
+  var h = orient==="landscape"?520:(orient==="square"?720:920);
+  var seedStr = cat.id + "-" + idx;
+  return {
+    id:"mock-"+idx,
+    title:title,
+    cat:cat.id,
+    orient:orient,
+    w:w,h:h,
+    views: rnd(idx+1,300,45000),
+    downloads: rnd(idx+7,50,12000),
+    sizeKb: rnd(idx+3,180,2400),
+    date: new Date(Date.now() - rnd(idx+2,0,60)*86400000),
+    tags:[cat.name, "Status WA", orient==="portrait"?"Vertikal":(orient==="landscape"?"Horizontal":"Kotak"), "HD"],
+    url: "https://picsum.photos/seed/"+encodeURIComponent(seedStr)+"/"+w+"/"+h
+  };
+}
+var MOCK_IMAGES = [];
+function buildMockImages(){
+  MOCK_IMAGES = [];
+  for(var i=0;i<240;i++){ MOCK_IMAGES.push(buildMockImage(i)); }
+  MOCK_IMAGES.forEach(function(it){ ITEM_CACHE[it.id]=it; });
+}
+
+/* ============ DATA LAYER (Supabase `images` table) ============
+   Semua fungsi di bawah ini mengambil data gambar sungguhan dari
+   Supabase. Kalau Supabase tidak terkonfigurasi / gagal dihubungi,
+   otomatis jatuh ke data mock (picsum) supaya situs tetap jalan. */
+var ITEM_CACHE = {}; // cache item by id, dipakai openModal/download supaya tidak perlu fetch ulang
+function mapRow(row){
+  var item = {
+    id: row.id,
+    title: row.title || 'Tanpa Judul',
+    cat: row.category,
+    orient: row.orientation || 'portrait',
+    w: row.width || 720,
+    h: row.height || 960,
+    sizeKb: row.size_kb || 0,
+    views: row.views || 0,
+    downloads: row.downloads || 0,
+    date: row.created_at ? new Date(row.created_at) : new Date(),
+    tags: row.tags || [],
+    url: row.url,
+    storagePath: row.storage_path
+  };
+  ITEM_CACHE[item.id] = item;
+  return item;
+}
+function imgUrl(item){
+  // Real image hanya punya satu resolusi tersimpan (public URL Storage),
+  // jadi parameter width lama sudah tidak dipakai lagi.
+  return item.url || '';
+}
+
+function escapeIlike(s){ return String(s).replace(/[%_]/g,''); }
+
+/* Ambil satu halaman gambar sesuai filter aktif (kategori, orientasi,
+   pencarian, urutan) memakai pagination Supabase (.range). */
+function fetchImagePage(opts){
+  if(!supabase){
+    return Promise.resolve(mockPage(opts));
+  }
+  var q = supabase.from(CONFIG.IMAGES_TABLE).select('*', {count:'exact'});
+  if(opts.category && opts.category!=='all') q = q.eq('category', opts.category);
+  if(opts.orient && opts.orient!=='all') q = q.eq('orientation', opts.orient);
+  if(opts.query){
+    var term = escapeIlike(opts.query);
+    if(term){
+      q = q.or('title.ilike.%'+term+'%,tags.cs.{"'+term+'"}');
+    }
+  }
+  if(opts.sort==='populer') q = q.order('views', {ascending:false});
+  else if(opts.sort==='download') q = q.order('downloads', {ascending:false});
+  else q = q.order('created_at', {ascending:false});
+  var start = opts.page*opts.pageSize;
+  var end = start + opts.pageSize - 1;
+  q = q.range(start, end);
+  return q.then(function(res){
+    if(res.error) throw res.error;
+    return { items:(res.data||[]).map(mapRow), total: (res.count==null? (res.data||[]).length : res.count) };
+  });
+}
+function mockPage(opts){
+  var list = MOCK_IMAGES.slice();
+  if(opts.category && opts.category!=='all') list = list.filter(function(i){return i.cat===opts.category;});
+  if(opts.orient && opts.orient!=='all') list = list.filter(function(i){return i.orient===opts.orient;});
+  if(opts.query){
+    var q = opts.query.toLowerCase();
+    list = list.filter(function(i){
+      var cat = CAT_BY_ID[i.cat] || {name:''};
+      return i.title.toLowerCase().indexOf(q)>-1 || cat.name.toLowerCase().indexOf(q)>-1 || i.tags.join(' ').toLowerCase().indexOf(q)>-1;
+    });
+  }
+  if(opts.sort==='populer') list.sort(function(a,b){return b.views-a.views;});
+  else if(opts.sort==='download') list.sort(function(a,b){return b.downloads-a.downloads;});
+  else list.sort(function(a,b){return b.date-a.date;});
+  var start = opts.page*opts.pageSize;
+  var slice = list.slice(start, start+opts.pageSize);
+  return { items: slice, total: list.length };
+}
+
+/* Ambil sekumpulan gambar terurut (dipakai hero strip & trending),
+   tanpa pagination. */
+function fetchTop(orderCol, limit){
+  if(!supabase){
+    var list = MOCK_IMAGES.slice();
+    if(orderCol==='views') list.sort(function(a,b){return b.views-a.views;});
+    else list.sort(function(a,b){return b.date-a.date;});
+    return Promise.resolve(list.slice(0,limit));
+  }
+  return supabase.from(CONFIG.IMAGES_TABLE).select('*')
+    .order(orderCol==='views'?'views':'created_at', {ascending:false})
+    .limit(limit)
+    .then(function(res){
+      if(res.error) throw res.error;
+      return (res.data||[]).map(mapRow);
+    });
+}
+
+/* Ambil gambar berdasarkan daftar id (dipakai tab Favorit). */
+function fetchByIds(ids){
+  if(ids.length===0) return Promise.resolve([]);
+  if(!supabase){
+    return Promise.resolve(MOCK_IMAGES.filter(function(i){return ids.indexOf(i.id)>-1;}));
+  }
+  return supabase.from(CONFIG.IMAGES_TABLE).select('*').in('id', ids).then(function(res){
+    if(res.error) throw res.error;
+    return (res.data||[]).map(mapRow);
+  });
+}
+
+/* Ambil satu gambar by id (fallback kalau belum ada di cache, mis.
+   dibuka langsung lewat #id di URL). */
+function fetchOne(id){
+  if(ITEM_CACHE[id]) return Promise.resolve(ITEM_CACHE[id]);
+  if(!supabase){
+    return Promise.resolve(MOCK_IMAGES.find(function(i){return i.id===id;}) || null);
+  }
+  return supabase.from(CONFIG.IMAGES_TABLE).select('*').eq('id', id).maybeSingle().then(function(res){
+    if(res.error || !res.data) return null;
+    return mapRow(res.data);
+  });
+}
+
+/* Tambah 1 ke kolom views/downloads lewat RPC (aman untuk akses
+   bersamaan, lihat increment_image_views / increment_image_downloads
+   di rpc-increment.sql). Kalau Supabase tidak aktif, cukup update
+   angka lokal supaya tampilan tetap jalan (mode mock/offline). */
+var VIEWED_THIS_SESSION_KEY = 'sg_viewed_session';
+function getViewedSet(){
+  try{ return JSON.parse(sessionStorage.getItem(VIEWED_THIS_SESSION_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+function markViewed(id){
+  var set = getViewedSet();
+  if(set.indexOf(id)===-1){
+    set.push(id);
+    sessionStorage.setItem(VIEWED_THIS_SESSION_KEY, JSON.stringify(set));
+  }
+}
+function registerView(item){
+  if(getViewedSet().indexOf(item.id)>-1) return; // sudah dihitung sesi ini
+  markViewed(item.id);
+  item.views = (item.views||0) + 1;
+  if(supabase){
+    supabase.rpc('increment_image_views', {p_image_id:item.id}).then(function(res){
+      if(res.error) console.warn('increment_image_views gagal:', res.error.message);
+    });
+  }
+}
+function registerDownload(item){
+  item.downloads = (item.downloads||0) + 1;
+  if(!supabase) return Promise.resolve();
+  return supabase.rpc('increment_image_downloads', {p_image_id:item.id}).then(function(res){
+    if(res.error) console.warn('increment_image_downloads gagal:', res.error.message);
+  });
+}
+function fmtNum(n){
+  if(n>=1000000) return (n/1000000).toFixed(1)+"jt";
+  if(n>=1000) return (n/1000).toFixed(1)+"rb";
+  return String(n);
+}
+function fmtDate(d){
+  return d.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+}
+
+/* ============ STATE ============ */
+var state = {
+  theme: localStorage.getItem('sg_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light'),
+  favorites: JSON.parse(localStorage.getItem('sg_favorites')||'[]'),
+  recentSearches: JSON.parse(localStorage.getItem('sg_recent')||'[]'),
+  activeCategory: 'all',
+  activeNav: 'home',
+  query:'',
+  filters:{orient:'all', sort:'terbaru'},
+  page:0,
+  pageSize:16,
+  total:null,
+  loadedCount:0,
+  loading:false,
+  currentModalItem:null,
+  user:null,
+  authMode:'login',
+  authMsg:''
+};
+
+/* ============ THEME ============ */
+function applyTheme(){
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.getElementById('themeToggle').textContent = state.theme==='dark' ? '☀️' : '🌙';
+  localStorage.setItem('sg_theme', state.theme);
+}
+document.getElementById('themeToggle').addEventListener('click', function(){
+  state.theme = state.theme==='dark' ? 'light':'dark';
+  applyTheme();
+});
+applyTheme();
+
+/* ============ TOAST ============ */
+var toastTimer;
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+}
+
+/* ============ HEADER SHRINK ON SCROLL ============ */
+var header = document.getElementById('appHeader');
+var progress = document.getElementById('scroll-progress');
+var lastY = 0;
+window.addEventListener('scroll', function(){
+  var y = window.scrollY;
+  header.classList.toggle('shrink', y>30);
+  var docH = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = docH>0 ? Math.min(100,(y/docH)*100)+'%' : '0%';
+  lastY = y;
+  handleInfiniteScroll();
+},{passive:true});
+
+/* ============ HERO STRIP ============ */
+function renderHeroStrip(){
+  var strip = document.getElementById('heroStrip');
+  strip.innerHTML = skeletonStripHTML(6);
+  fetchTop('terbaru', 10).then(function(picks){
+    strip.innerHTML = picks.map(function(item){
+      return '<div class="strip-card" data-id="'+item.id+'"><img src="'+imgUrl(item)+'" alt="'+item.title+'" loading="lazy"></div>';
+    }).join('');
+  }).catch(function(){
+    strip.innerHTML = '';
+  });
+}
+function skeletonStripHTML(n){
+  var html='';
+  for(var i=0;i<n;i++){ html += '<div class="strip-card skeleton"></div>'; }
+  return html;
+}
+function skeletonTrendHTML(n){
+  var html='';
+  for(var i=0;i<n;i++){ html += '<div class="trend-card skeleton"></div>'; }
+  return html;
+}
+document.getElementById('heroStrip').addEventListener('click', function(e){
+  var card = e.target.closest('.strip-card');
+  if(card) openModal(card.dataset.id);
+});
+
+/* ============ CATEGORY CHIPS ============ */
+function catLoadingSkeletonHTML(){
+  var html='';
+  for(var i=0;i<6;i++){ html += '<div class="chip-skeleton skeleton"></div>'; }
+  return html;
+}
+function showCategoriesLoading(){
+  document.getElementById('catScroll').innerHTML = catLoadingSkeletonHTML();
+  document.getElementById('filterCatGroup').innerHTML = catLoadingSkeletonHTML();
+}
+function renderCatChips(){
+  var scroll = document.getElementById('catScroll');
+  var html = '<button class="chip'+(state.activeCategory==='all'?' active':'')+'" data-cat="all"><span class="chip-ic" style="background:linear-gradient(135deg,#0D8B5B,#12B76A);">✨</span>Semua</button>';
+  html += CATEGORIES.map(function(c){
+    return '<button class="chip'+(state.activeCategory===c.id?' active':'')+'" data-cat="'+c.id+'"><span class="chip-ic" style="background:'+c.color+';">'+c.icon+'</span>'+c.name+'</button>';
+  }).join('');
+  scroll.innerHTML = html;
+}
+document.getElementById('catScroll').addEventListener('click', function(e){
+  var chip = e.target.closest('.chip');
+  if(!chip) return;
+  state.activeCategory = chip.dataset.cat;
+  renderCatChips();
+  resetAndReload();
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* Category grid inside filter sheet */
+function renderFilterCatGroup(){
+  var wrap = document.getElementById('filterCatGroup');
+  var html = '<button class="pill active" data-val="all">Semua</button>';
+  html += CATEGORIES.map(function(c){ return '<button class="pill" data-val="'+c.id+'">'+c.icon+' '+c.name+'</button>'; }).join('');
+  wrap.innerHTML = html;
+}
+
+/* ============ RECOMMENDATION ROW ============ */
+(function(){
+  var reco = document.getElementById('recoScroll');
+  var labels = [
+    {t:"⬇️ Paling Banyak Download", f:"download"},
+    {t:"🆕 Baru Ditambahkan", f:"terbaru"},
+    {t:"🎯 Untuk Kamu", f:"reco"},
+    {t:"🔎 Sering Dicari", f:"search"}
+  ];
+  reco.innerHTML = labels.map(function(l,idx){
+    return '<button class="chip" data-reco="'+l.f+'" style="border-color:transparent;background:'+(idx===0?'rgba(13,139,91,.1)':'var(--card)')+';">'+l.t+'</button>';
+  }).join('');
+  reco.addEventListener('click', function(e){
+    var chip = e.target.closest('.chip');
+    if(!chip) return;
+    var f = chip.dataset.reco;
+    if(f==='download') state.filters.sort='download';
+    else if(f==='terbaru') state.filters.sort='terbaru';
+    else if(f==='reco') state.filters.sort='populer';
+    else state.filters.sort='populer';
+    resetAndReload();
+    document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+  });
+})();
+
+/* ============ TRENDING ============ */
+function renderTrending(){
+  var scroll = document.getElementById('trendScroll');
+  scroll.innerHTML = skeletonTrendHTML(4);
+  fetchTop('views', 12).then(function(picks){
+    scroll.innerHTML = picks.map(function(item,idx){
+      var c = CAT_BY_ID[item.cat] || {icon:'🖼️', name:'Lainnya'};
+      return '<div class="trend-card" data-id="'+item.id+'">'+
+        '<img src="'+imgUrl(item)+'" alt="'+item.title+'" loading="lazy">'+
+        '<div class="trend-rank">#'+(idx+1)+' 🔥</div>'+
+        '<div class="trend-info"><b>'+item.title+'</b><small>'+c.icon+' '+c.name+' · 👁️ '+fmtNum(item.views)+'</small></div>'+
+      '</div>';
+    }).join('');
+  }).catch(function(){
+    scroll.innerHTML = '<div style="padding:14px;color:var(--text-faint);font-size:12.5px;">Gagal memuat trending. Coba lagi nanti.</div>';
+  });
+}
+document.getElementById('trendScroll').addEventListener('click', function(e){
+  var card = e.target.closest('.trend-card');
+  if(card) openModal(card.dataset.id);
+});
+document.getElementById('seeAllTrend').addEventListener('click', function(){
+  state.filters.sort='populer';
+  resetAndReload();
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+});
+
+/* ============ GALLERY / MASONRY + INFINITE SCROLL ============ */
+var masonry = document.getElementById('masonry');
+var loaderRow = document.getElementById('loaderRow');
+var emptyState = document.getElementById('emptyState');
+
+function currentQueryOpts(page){
+  return {
+    category: state.activeCategory,
+    orient: state.filters.orient,
+    query: state.query,
+    sort: state.filters.sort,
+    page: page,
+    pageSize: state.pageSize
+  };
+}
+
+function skeletonHTML(n){
+  var html='';
+  for(var i=0;i<n;i++){
+    var h = [180,230,200,260,190][i%5];
+    html += '<div class="sk-card"><div class="skeleton sk-img" style="height:'+h+'px;"></div></div>';
+  }
+  return html;
+}
+
+function cardHTML(item){
+  var c = CAT_BY_ID[item.cat] || {icon:'🖼️', name:'Lainnya'};
+  var isFav = state.favorites.indexOf(item.id)>-1;
+  return '<div class="g-card" data-id="'+item.id+'">'+
+    '<div class="img-wrap">'+
+      '<span class="cat-tag">'+c.icon+' '+c.name+'</span>'+
+      '<button class="fav-btn'+(isFav?' active':'')+'" data-fav="'+item.id+'">'+(isFav?'❤️':'🤍')+'</button>'+
+      '<img src="'+imgUrl(item)+'" alt="'+item.title+'" loading="lazy">'+
+    '</div>'+
+    '<div class="meta"><b>'+item.title+'</b><div class="stats"><span>⬇️ '+fmtNum(item.downloads)+'</span><span>👁️ '+fmtNum(item.views)+'</span></div></div>'+
+  '</div>';
+}
+
+function resetAndReload(){
+  state.page = 0;
+  state.total = null;
+  state.loadedCount = 0;
+  masonry.innerHTML='';
+  emptyState.style.display='none';
+  var label = state.activeCategory==='all' ? 'Semua Gambar' : ((CAT_BY_ID[state.activeCategory]||{}).icon+' '+(CAT_BY_ID[state.activeCategory]||{}).name);
+  document.getElementById('galleryTitle').textContent = state.query ? '🔍 Hasil: "'+state.query+'"' : '🖼️ '+label;
+  loadMore();
+}
+
+function loadMore(){
+  if(state.loading) return;
+  if(state.total!==null && state.loadedCount>=state.total) return;
+
+  state.loading = true;
+  loaderRow.style.display='flex';
+  emptyState.style.display='none';
+  masonry.insertAdjacentHTML('beforeend', skeletonHTML(8));
+
+  fetchImagePage(currentQueryOpts(state.page)).then(function(res){
+    var skels = masonry.querySelectorAll('.sk-card');
+    skels.forEach(function(s){s.remove();});
+
+    state.total = res.total;
+    state.loadedCount += res.items.length;
+
+    if(state.page===0 && res.items.length===0){
+      emptyState.style.display='block';
+      emptyState.innerHTML = '<div class="empty-state"><div class="em-ic">🔍</div><h4>Gambar tidak ditemukan</h4><p>Coba kata kunci atau kategori lain ya.</p></div>';
+      loaderRow.style.display='none';
+      state.loading = false;
+      return;
+    }
+    emptyState.style.display='none';
+
+    var frag = res.items.map(function(item,idx){
+      return cardHTML(item).replace('class="g-card"','class="g-card" style="animation-delay:'+(idx*0.03)+'s"');
+    }).join('');
+    masonry.insertAdjacentHTML('beforeend', frag);
+
+    state.page++;
+    state.loading = false;
+    loaderRow.style.display = (state.loadedCount>=state.total) ? 'none' : 'flex';
+  }).catch(function(err){
+    var skels = masonry.querySelectorAll('.sk-card');
+    skels.forEach(function(s){s.remove();});
+    state.loading = false;
+    loaderRow.style.display='none';
+    if(state.page===0){
+      emptyState.style.display='block';
+      emptyState.innerHTML = '<div class="empty-state"><div class="em-ic">⚠️</div><h4>Gagal memuat gambar</h4><p>Periksa koneksi internet kamu, lalu coba lagi.</p><button class="btn btn-primary" id="retryLoadBtn" style="margin-top:10px;">Coba Lagi</button></div>';
+      var retryBtn = document.getElementById('retryLoadBtn');
+      if(retryBtn) retryBtn.addEventListener('click', function(){ resetAndReload(); });
+    } else {
+      showToast('Gagal memuat gambar tambahan, coba scroll lagi.');
+    }
+    console.warn('fetchImagePage error:', err);
+  });
+}
+
+function handleInfiniteScroll(){
+  if(state.activeNav==='favorit') return;
+  var scrollBottom = window.innerHeight + window.scrollY;
+  var docH = document.documentElement.scrollHeight;
+  if(scrollBottom > docH - 500){ loadMore(); }
+}
+
+masonry.addEventListener('click', function(e){
+  var favBtn = e.target.closest('.fav-btn');
+  if(favBtn){
+    e.stopPropagation();
+    toggleFavorite(favBtn.dataset.fav, favBtn);
+    return;
+  }
+  var card = e.target.closest('.g-card');
+  if(card) openModal(card.dataset.id);
+});
+
+function toggleFavorite(id, btnEl){
+  var idx = state.favorites.indexOf(id);
+  var isFav;
+  if(idx>-1){ state.favorites.splice(idx,1); isFav=false; }
+  else { state.favorites.push(id); isFav=true; }
+  localStorage.setItem('sg_favorites', JSON.stringify(state.favorites));
+  if(btnEl){
+    btnEl.classList.toggle('active', isFav);
+    btnEl.textContent = isFav ? '❤️' : '🤍';
+  }
+  showToast(isFav ? 'Ditambahkan ke Favorit ❤️' : 'Dihapus dari Favorit');
+  if(document.getElementById('modalFavBtn') && state.currentModalItem===id){
+    updateModalFavBtn();
+  }
+}
+
+/* ============ MODAL ============ */
+var modalOverlay = document.getElementById('modalOverlay');
+function openModal(id){
+  var cached = ITEM_CACHE[id];
+  if(cached){
+    renderModal(cached);
+  } else {
+    fetchOne(id).then(function(item){
+      if(item) renderModal(item);
+      else showToast('Gambar tidak ditemukan.');
+    }).catch(function(){
+      showToast('Gagal memuat detail gambar.');
+    });
+  }
+}
+function renderModal(item){
+  state.currentModalItem = item.id;
+  var c = CAT_BY_ID[item.cat] || {icon:'🖼️', name:'Lainnya'};
+  document.getElementById('modalImg').src = imgUrl(item);
+  document.getElementById('modalImg').alt = item.title;
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalSub').textContent = c.icon+' '+c.name+' · Diunggah '+fmtDate(item.date);
+  document.getElementById('statRes').textContent = item.w+'×'+item.h;
+  document.getElementById('statSize').textContent = (item.sizeKb/1024>=1? (item.sizeKb/1024).toFixed(1)+'MB' : item.sizeKb+'KB');
+  document.getElementById('statDl').textContent = fmtNum(item.downloads);
+  document.getElementById('modalTags').innerHTML = item.tags.map(function(t){return '<span class="tag">#'+t.replace(/\s+/g,'')+'</span>';}).join('');
+  updateModalFavBtn();
+  modalOverlay.classList.add('show');
+  document.body.style.overflow='hidden';
+  registerView(item);
+  document.getElementById('statDl').textContent = fmtNum(item.downloads);
+}
+function updateModalFavBtn(){
+  var btn = document.getElementById('modalFavBtn');
+  var isFav = state.favorites.indexOf(state.currentModalItem)>-1;
+  btn.innerHTML = isFav ? '❤️ Favorit' : '🤍 Favorite';
+  btn.classList.toggle('active', isFav);
+}
+function closeModal(){
+  modalOverlay.classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', function(e){ if(e.target===modalOverlay) closeModal(); });
+
+document.getElementById('modalFavBtn').addEventListener('click', function(){
+  toggleFavorite(state.currentModalItem, null);
+  updateModalFavBtn();
+});
+
+document.getElementById('modalDownloadBtn').addEventListener('click', function(){
+  var item = ITEM_CACHE[state.currentModalItem];
+  if(!item) return;
+  var btn = this;
+  var original = btn.innerHTML;
+  btn.innerHTML = '⏳ Menyiapkan...';
+  btn.disabled = true;
+  fetch(imgUrl(item))
+    .then(function(res){ return res.blob(); })
+    .then(function(blob){
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'StatusGallery-'+item.cat+'-'+item.id+'.jpg';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      return registerDownload(item);
+    })
+    .then(function(){
+      document.getElementById('statDl').textContent = fmtNum(item.downloads);
+      showToast('⬇️ Gambar HD berhasil diunduh!');
+    })
+    .catch(function(){ showToast('Gagal mengunduh, coba lagi ya.'); })
+    .finally(function(){ btn.innerHTML = original; btn.disabled=false; });
+});
+
+document.getElementById('modalShareBtn').addEventListener('click', function(){
+  var item = ITEM_CACHE[state.currentModalItem];
+  if(!item) return;
+  var text = encodeURIComponent('Lihat gambar "'+item.title+'" dari Status Gallery: '+location.href+'#'+item.id);
+  if(navigator.share){
+    navigator.share({title:item.title, text:'Cek gambar status WA ini!', url:location.href+'#'+item.id}).catch(function(){});
+  } else {
+    window.open('https://wa.me/?text='+text, '_blank');
+  }
+});
+
+document.getElementById('modalCopyBtn').addEventListener('click', function(){
+  var item = ITEM_CACHE[state.currentModalItem];
+  if(!item) return;
+  var link = location.href.split('#')[0]+'#'+item.id;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(link).then(function(){ showToast('🔗 Link disalin!'); });
+  } else {
+    showToast('🔗 Link: '+link);
+  }
+});
+
+/* ============ SEARCH OVERLAY ============ */
+var searchOverlay = document.getElementById('searchOverlay');
+var searchInput = document.getElementById('searchInput');
+var SUGGESTIONS = ["Motivasi","Lucu","Islami","Quotes","Anime","Romantis","Ucapan Ulang Tahun","Estetik"];
+
+function renderRecent(){
+  var wrap = document.getElementById('recentWrap');
+  var list = document.getElementById('recentList');
+  if(state.recentSearches.length===0){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  list.innerHTML = state.recentSearches.map(function(q){
+    return '<div class="recent-item" data-q="'+q+'"><span class="r-ic">🕓</span>'+q+'</div>';
+  }).join('');
+}
+function renderSuggestions(){
+  document.getElementById('suggGrid').innerHTML = SUGGESTIONS.map(function(s){
+    return '<button class="pill" data-q="'+s+'">'+s+'</button>';
+  }).join('');
+}
+renderSuggestions();
+
+function openSearch(){
+  renderRecent();
+  searchOverlay.classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(function(){ searchInput.focus(); }, 260);
+}
+function closeSearch(){
+  searchOverlay.classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('openSearchBtn').addEventListener('click', openSearch);
+document.getElementById('heroSearchBtn').addEventListener('click', openSearch);
+document.getElementById('navSearchFab').addEventListener('click', openSearch);
+document.getElementById('closeSearchBtn').addEventListener('click', closeSearch);
+
+document.getElementById('heroCatBtn').addEventListener('click', function(){
+  document.querySelector('.section').nextElementSibling.scrollIntoView({behavior:'smooth'});
+});
+
+function commitSearch(q){
+  q = q.trim();
+  if(!q) return;
+  state.query = q;
+  document.getElementById('headerSearchLabel').textContent = q;
+  state.recentSearches = [q].concat(state.recentSearches.filter(function(r){return r!==q;})).slice(0,6);
+  localStorage.setItem('sg_recent', JSON.stringify(state.recentSearches));
+  closeSearch();
+  state.activeCategory='all';
+  renderCatChips();
+  resetAndReload();
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+}
+searchInput.addEventListener('keydown', function(e){
+  if(e.key==='Enter') commitSearch(searchInput.value);
+});
+document.getElementById('recentList').addEventListener('click', function(e){
+  var el = e.target.closest('.recent-item'); if(el) commitSearch(el.dataset.q);
+});
+document.getElementById('suggGrid').addEventListener('click', function(e){
+  var el = e.target.closest('.pill'); if(el) commitSearch(el.dataset.q);
+});
+
+/* ============ FILTER SHEET ============ */
+var filterOverlay = document.getElementById('filterOverlay');
+var filterSheet = document.getElementById('filterSheet');
+function openSheet(){ filterOverlay.classList.add('show'); filterSheet.classList.add('show'); document.body.style.overflow='hidden'; }
+function closeSheet(){ filterOverlay.classList.remove('show'); filterSheet.classList.remove('show'); document.body.style.overflow=''; }
+document.getElementById('openFilterBtn').addEventListener('click', openSheet);
+filterOverlay.addEventListener('click', closeSheet);
+
+document.querySelectorAll('#filterOrientGroup .pill').forEach(function(p){
+  p.addEventListener('click', function(){
+    document.querySelectorAll('#filterOrientGroup .pill').forEach(function(x){x.classList.remove('active');});
+    p.classList.add('active');
+  });
+});
+document.querySelectorAll('#filterSortGroup .pill').forEach(function(p){
+  p.addEventListener('click', function(){
+    document.querySelectorAll('#filterSortGroup .pill').forEach(function(x){x.classList.remove('active');});
+    p.classList.add('active');
+  });
+});
+document.getElementById('filterCatGroup').addEventListener('click', function(e){
+  var p = e.target.closest('.pill'); if(!p) return;
+  document.querySelectorAll('#filterCatGroup .pill').forEach(function(x){x.classList.remove('active');});
+  p.classList.add('active');
+});
+document.getElementById('resetFilterBtn').addEventListener('click', function(){
+  document.querySelectorAll('#filterSheet .pill').forEach(function(x){x.classList.remove('active');});
+  document.querySelector('#filterCatGroup .pill').classList.add('active');
+  document.querySelector('#filterOrientGroup .pill').classList.add('active');
+  document.querySelector('#filterSortGroup .pill').classList.add('active');
+});
+document.getElementById('applyFilterBtn').addEventListener('click', function(){
+  var cat = document.querySelector('#filterCatGroup .pill.active').dataset.val;
+  var orient = document.querySelector('#filterOrientGroup .pill.active').dataset.val;
+  var sort = document.querySelector('#filterSortGroup .pill.active').dataset.val;
+  state.activeCategory = cat;
+  state.filters.orient = orient;
+  state.filters.sort = sort;
+  renderCatChips();
+  closeSheet();
+  resetAndReload();
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+});
+
+/* ============ AUTH (Login / Signup / Profile Sheet) ============
+   Login pengguna biasa — terpisah total dari login admin di
+   admin.html. Situs tetap bisa dipakai tanpa login; login hanya
+   diminta saat membuka tab Favorit (lihat BOTTOM NAV di bawah). */
+var authOverlay = document.getElementById('authOverlay');
+var authSheet = document.getElementById('authSheet');
+var authSheetBody = document.getElementById('authSheetBody');
+var accountBtn = document.getElementById('accountBtn');
+
+function openAuthSheet(mode, msg){
+  state.authMode = mode || (state.user ? 'profile' : 'login');
+  state.authMsg = msg || '';
+  renderAuthSheet();
+  authOverlay.classList.add('show');
+  authSheet.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeAuthSheet(){
+  authOverlay.classList.remove('show');
+  authSheet.classList.remove('show');
+  document.body.style.overflow='';
+  state.authMsg='';
+}
+authOverlay.addEventListener('click', closeAuthSheet);
+accountBtn.addEventListener('click', function(){
+  openAuthSheet(state.user ? 'profile' : 'login');
+});
+
+function userDisplayName(user){
+  if(!user) return 'Pengguna';
+  var meta = user.user_metadata || {};
+  return meta.full_name || meta.name || (user.email ? user.email.split('@')[0] : 'Pengguna');
+}
+function userAvatarHTML(user){
+  var meta = (user && user.user_metadata) || {};
+  var photo = meta.avatar_url || meta.picture;
+  if(photo) return '<img src="'+photo+'" alt="">';
+  var name = userDisplayName(user);
+  return (name.charAt(0)||'?').toUpperCase();
+}
+function updateHeaderAvatar(){
+  accountBtn.innerHTML = state.user ? userAvatarHTML(state.user) : '👤';
+}
+
+function renderAuthSheet(){
+  if(state.user){
+    authSheetBody.innerHTML =
+      '<div class="profile-head">'+
+        '<div class="profile-avatar">'+userAvatarHTML(state.user)+'</div>'+
+        '<div class="profile-info"><b>'+userDisplayName(state.user)+'</b><span>'+(state.user.email||'')+'</span></div>'+
+      '</div>'+
+      '<div class="profile-menu">'+
+        '<button class="profile-menu-item" id="goFavoritesBtn">❤️ Favorit Saya</button>'+
+        '<button class="profile-menu-item danger" id="logoutBtn">🚪 Keluar</button>'+
+      '</div>';
+    document.getElementById('goFavoritesBtn').addEventListener('click', function(){
+      closeAuthSheet();
+      document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
+      var favBtn = document.querySelector('.nav-item[data-nav="favorit"]');
+      if(favBtn) favBtn.classList.add('active');
+      state.activeNav='favorit';
+      showFavoritesView();
+    });
+    document.getElementById('logoutBtn').addEventListener('click', function(){
+      var btn = document.getElementById('logoutBtn');
+      btn.textContent = '⏳ Keluar...';
+      supabase.auth.signOut().then(function(){
+        closeAuthSheet();
+        showToast('Berhasil keluar.');
+      });
+    });
+  } else {
+    var loginActive = state.authMode!=='signup';
+    authSheetBody.innerHTML =
+      '<h3>'+(loginActive?'Masuk':'Daftar')+' ke Status Gallery</h3>'+
+      (state.authMsg ? '<div class="auth-msg">'+state.authMsg+'</div>' : '')+
+      '<button class="btn btn-google" id="googleLoginBtn"><span style="font-weight:800;margin-right:6px;">G</span>Lanjutkan dengan Google</button>'+
+      '<div class="auth-divider">atau</div>'+
+      '<div class="auth-tabs">'+
+        '<button type="button" class="auth-tab'+(loginActive?' active':'')+'" data-mode="login">Masuk</button>'+
+        '<button type="button" class="auth-tab'+(!loginActive?' active':'')+'" data-mode="signup">Daftar</button>'+
+      '</div>'+
+      '<div class="auth-error" id="authError"></div>'+
+      '<form id="authForm" novalidate>'+
+        '<div class="auth-field"><label>Email</label><input type="email" id="authEmail" autocomplete="email" required></div>'+
+        '<div class="auth-field"><label>Password</label><input type="password" id="authPassword" autocomplete="'+(loginActive?'current-password':'new-password')+'" minlength="6" required></div>'+
+        '<button type="submit" class="btn btn-primary auth-submit-btn" id="authSubmitBtn">'+(loginActive?'Masuk':'Daftar')+'</button>'+
+      '</form>'+
+      '<div class="auth-tnc">Dengan melanjutkan, kamu menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> kami.</div>';
+
+    document.getElementById('googleLoginBtn').addEventListener('click', function(){
+      if(!supabase){ showToast('Supabase belum dikonfigurasi.'); return; }
+      supabase.auth.signInWithOAuth({
+        provider:'google',
+        options:{ redirectTo: location.href.split('#')[0] }
+      });
+    });
+    Array.prototype.forEach.call(authSheetBody.querySelectorAll('.auth-tab'), function(tab){
+      tab.addEventListener('click', function(){
+        state.authMode = tab.dataset.mode;
+        state.authMsg='';
+        renderAuthSheet();
+      });
+    });
+    document.getElementById('authForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      handleEmailAuth(loginActive ? 'login' : 'signup');
+    });
+  }
+}
+
+function translateAuthError(msg){
+  if(!msg) return 'Terjadi kesalahan, coba lagi.';
+  var m = msg.toLowerCase();
+  if(m.indexOf('invalid login credentials')>-1) return 'Email atau password salah.';
+  if(m.indexOf('already registered')>-1 || m.indexOf('already exists')>-1) return 'Email ini sudah terdaftar. Coba masuk saja.';
+  if(m.indexOf('password should be at least')>-1) return 'Password minimal 6 karakter.';
+  if(m.indexOf('email not confirmed')>-1) return 'Email belum diverifikasi. Cek inbox kamu ya.';
+  if(m.indexOf('unable to validate email')>-1 || m.indexOf('invalid email')>-1) return 'Format email tidak valid.';
+  if(m.indexOf('rate limit')>-1) return 'Terlalu banyak percobaan. Coba lagi sebentar lagi.';
+  return msg;
+}
+
+function handleEmailAuth(mode){
+  if(!supabase){ showToast('Supabase belum dikonfigurasi.'); return; }
+  var email = document.getElementById('authEmail').value.trim();
+  var password = document.getElementById('authPassword').value;
+  var errEl = document.getElementById('authError');
+  var btn = document.getElementById('authSubmitBtn');
+  errEl.classList.remove('show'); errEl.textContent='';
+  btn.disabled = true;
+  var original = btn.textContent;
+  btn.textContent = mode==='login' ? '⏳ Masuk...' : '⏳ Mendaftar...';
+
+  var action = mode==='login'
+    ? supabase.auth.signInWithPassword({email:email, password:password})
+    : supabase.auth.signUp({email:email, password:password});
+
+  action.then(function(res){
+    if(res.error){
+      errEl.textContent = translateAuthError(res.error.message);
+      errEl.classList.add('show');
+      btn.disabled=false; btn.textContent=original;
+      return;
+    }
+    if(mode==='signup' && res.data && res.data.user && !res.data.session){
+      state.authMode='login';
+      state.authMsg = 'Pendaftaran berhasil! Cek email kamu untuk verifikasi, lalu masuk di sini.';
+      renderAuthSheet();
+      return;
+    }
+    closeAuthSheet();
+    showToast(mode==='login' ? 'Berhasil masuk! 👋' : 'Pendaftaran berhasil! 🎉');
+  }).catch(function(err){
+    errEl.textContent = translateAuthError(err && err.message);
+    errEl.classList.add('show');
+    btn.disabled=false; btn.textContent=original;
+  });
+}
+
+if(supabase){
+  supabase.auth.getSession().then(function(res){
+    state.user = res.data && res.data.session ? res.data.session.user : null;
+    updateHeaderAvatar();
+  });
+  supabase.auth.onAuthStateChange(function(event, session){
+    state.user = session ? session.user : null;
+    updateHeaderAvatar();
+    if(authSheet.classList.contains('show')){
+      state.authMode = state.user ? 'profile' : 'login';
+      renderAuthSheet();
+    }
+  });
+} else {
+  updateHeaderAvatar();
+}
+
+/* ============ BOTTOM NAV ============ */
+document.querySelectorAll('.nav-item').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var nav = btn.dataset.nav;
+    if(nav==='favorit' && !state.user){
+      openAuthSheet('login', 'Masuk dulu yuk, supaya favoritmu tersimpan dan bisa dibuka lagi dari HP lain.');
+      return;
+    }
+    document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+    state.activeNav = nav;
+    if(nav==='home'){
+      state.query=''; state.activeCategory='all'; state.filters={orient:'all',sort:'terbaru'};
+      document.getElementById('headerSearchLabel').textContent='Cari motivasi, lucu, quotes...';
+      renderCatChips();
+      resetAndReload();
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else if(nav==='trending'){
+      state.query=''; state.activeCategory='all'; state.filters.sort='populer';
+      renderCatChips();
+      resetAndReload();
+      document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+    } else if(nav==='kategori'){
+      openSheet();
+    } else if(nav==='favorit'){
+      showFavoritesView();
+    }
+  });
+});
+
+function showFavoritesView(){
+  masonry.innerHTML='';
+  emptyState.style.display='none';
+  document.getElementById('galleryTitle').textContent = '❤️ Favorit Saya';
+  document.getElementById('gallery').scrollIntoView({behavior:'smooth'});
+
+  if(state.favorites.length===0){
+    emptyState.style.display='block';
+    emptyState.innerHTML = '<div class="empty-state"><div class="em-ic">❤️</div><h4>Belum ada favorit</h4><p>Tap ikon hati pada gambar untuk menyimpannya di sini.</p></div>';
+    loaderRow.style.display='none';
+    return;
+  }
+
+  loaderRow.style.display='flex';
+  masonry.insertAdjacentHTML('beforeend', skeletonHTML(Math.min(state.favorites.length,8)));
+
+  fetchByIds(state.favorites).then(function(items){
+    masonry.innerHTML='';
+    loaderRow.style.display='none';
+    if(items.length===0){
+      emptyState.style.display='block';
+      emptyState.innerHTML = '<div class="empty-state"><div class="em-ic">❤️</div><h4>Belum ada favorit</h4><p>Tap ikon hati pada gambar untuk menyimpannya di sini.</p></div>';
+    } else {
+      emptyState.style.display='none';
+      masonry.innerHTML = items.map(cardHTML).join('');
+    }
+  }).catch(function(){
+    masonry.innerHTML='';
+    loaderRow.style.display='none';
+    emptyState.style.display='block';
+    emptyState.innerHTML = '<div class="empty-state"><div class="em-ic">⚠️</div><h4>Gagal memuat favorit</h4><p>Coba lagi ya.</p></div>';
+  });
+}
+
+/* ============ RIPPLE MICRO-INTERACTION ============ */
+document.addEventListener('click', function(e){
+  var btn = e.target.closest('.btn, .chip, .nav-fab');
+  if(!btn) return;
+  var rect = btn.getBoundingClientRect();
+  var ripple = document.createElement('span');
+  var size = Math.max(rect.width, rect.height);
+  ripple.className='ripple-el';
+  ripple.style.width = ripple.style.height = size+'px';
+  ripple.style.left = (e.clientX-rect.left-size/2)+'px';
+  ripple.style.top = (e.clientY-rect.top-size/2)+'px';
+  btn.classList.add('ripple');
+  btn.appendChild(ripple);
+  setTimeout(function(){ ripple.remove(); }, 550);
+});
+
+/* ============ KEYBOARD ESC ============ */
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){
+    if(modalOverlay.classList.contains('show')) closeModal();
+    else if(authSheet.classList.contains('show')) closeAuthSheet();
+    else if(filterSheet.classList.contains('show')) closeSheet();
+    else if(searchOverlay.classList.contains('show')) closeSearch();
+  }
+});
+
+/* ============ CATEGORIES LOADING + APP INIT ============ */
+function initApp(){
+  if(!supabase){ buildMockImages(); }
+  renderHeroStrip();
+  renderCatChips();
+  renderFilterCatGroup();
+  renderTrending();
+  resetAndReload();
+}
+function loadCategories(){
+  showCategoriesLoading();
+  if(!supabase){
+    setCategories(DEFAULT_CATEGORIES);
+    initApp();
+    return;
+  }
+  supabase.from(CONFIG.CATEGORIES_TABLE).select('*').order('sort_order', {ascending:true}).then(function(res){
+    if(res.error || !res.data || res.data.length===0){
+      setCategories(DEFAULT_CATEGORIES);
+    } else {
+      setCategories(res.data);
+    }
+    initApp();
+  }).catch(function(){
+    setCategories(DEFAULT_CATEGORIES);
+    initApp();
+  });
+}
+
+/* ============ INIT ============ */
+loadCategories();
+
+/* ============ SERVICE WORKER REGISTRATION ============ */
+var swRegistration = null;
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      swRegistration = reg;
+      reg.addEventListener('updatefound', function(){
+        var newWorker = reg.installing;
+        if(!newWorker) return;
+        newWorker.addEventListener('statechange', function(){
+          if(newWorker.state==='installed' && navigator.serviceWorker.controller){
+            document.getElementById('updateToast').classList.add('show');
+          }
+        });
+      });
+    }).catch(function(){ /* offline support just won't be available */ });
+  });
+  var refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
+}
+document.getElementById('updateReloadBtn').addEventListener('click', function(){
+  if(swRegistration && swRegistration.waiting){
+    swRegistration.waiting.postMessage({type:'SKIP_WAITING'});
+  } else {
+    window.location.reload();
+  }
+});
+
+/* ============ PWA INSTALL PROMPT ============ */
+var deferredInstallPrompt = null;
+var installBanner = document.getElementById('installBanner');
+var INSTALL_DISMISS_KEY = 'sg_install_dismissed';
+
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  var dismissedAt = localStorage.getItem(INSTALL_DISMISS_KEY);
+  var recentlyDismissed = dismissedAt && (Date.now() - Number(dismissedAt) < 7*86400000);
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  if(!recentlyDismissed && !isStandalone){
+    setTimeout(function(){ installBanner.classList.add('show'); }, 1800);
+  }
+});
+
+document.getElementById('ibInstallBtn').addEventListener('click', function(){
+  installBanner.classList.remove('show');
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(function(choice){
+    if(choice.outcome==='accepted'){ showToast('🎉 Status Gallery berhasil dipasang!'); }
+    deferredInstallPrompt = null;
+  });
+});
+document.getElementById('ibDismissBtn').addEventListener('click', function(){
+  installBanner.classList.remove('show');
+  localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now()));
+});
+window.addEventListener('appinstalled', function(){
+  installBanner.classList.remove('show');
+  deferredInstallPrompt = null;
+});
+
+})();
+</script>
+</body>
+</html>
