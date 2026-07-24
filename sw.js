@@ -26,7 +26,18 @@ self.addEventListener("message", function (event) {
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(SHELL_CACHE)
-      .then(function (cache) { return cache.addAll(APP_SHELL); })
+      .then(function (cache) {
+        // Jangan pakai cache.addAll biasa: itu atomic, kalau 1 file gagal
+        // (404 / belum ke-upload) SELURUH instalasi service worker gagal,
+        // dan itu bikin Chrome menganggap PWA tidak "installable".
+        return Promise.all(
+          APP_SHELL.map(function (url) {
+            return cache.add(url).catch(function (err) {
+              console.warn("[SW] gagal cache saat install, dilewati:", url, err);
+            });
+          })
+        );
+      })
       .then(function () { return self.skipWaiting(); })
   );
 });
