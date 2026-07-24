@@ -1,11 +1,14 @@
 // Status Gallery — Service Worker
 // Naikkan CACHE_VERSION setiap kali index.html/CSS/JS berubah agar user dapat versi baru.
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const SHELL_CACHE = "sg-shell-" + CACHE_VERSION;
 const IMAGE_CACHE = "sg-images-" + CACHE_VERSION;
 const FONT_CACHE = "sg-fonts-" + CACHE_VERSION;
 
+// Semua path relatif terhadap lokasi sw.js ini sendiri, jadi aman
+// dipakai di root domain maupun di sub-folder (mis. GitHub Pages project page).
 const APP_SHELL = [
+  "./",
   "./index.html",
   "./manifest.json",
   "./icons/icon-192.png",
@@ -27,9 +30,8 @@ self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(SHELL_CACHE)
       .then(function (cache) {
-        // Jangan pakai cache.addAll biasa: itu atomic, kalau 1 file gagal
-        // (404 / belum ke-upload) SELURUH instalasi service worker gagal,
-        // dan itu bikin Chrome menganggap PWA tidak "installable".
+        // cache.add per-file (bukan addAll) supaya 1 file yang gagal
+        // (404 / belum ke-upload) tidak menggagalkan seluruh instalasi SW.
         return Promise.all(
           APP_SHELL.map(function (url) {
             return cache.add(url).catch(function (err) {
@@ -55,7 +57,8 @@ self.addEventListener("activate", function (event) {
 });
 
 function isImageRequest(url) {
-  return url.hostname === "picsum.photos" || url.hostname.indexOf("supabase.co") > -1 && url.pathname.indexOf("/storage/") > -1;
+  return url.hostname === "picsum.photos" ||
+    (url.hostname.indexOf("supabase.co") > -1 && url.pathname.indexOf("/storage/") > -1);
 }
 function isFontRequest(url) {
   return url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com";
