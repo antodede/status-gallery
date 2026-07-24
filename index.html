@@ -1708,25 +1708,45 @@ var deferredInstallPrompt = null;
 var installBanner = document.getElementById('installBanner');
 var INSTALL_DISMISS_KEY = 'sg_install_dismissed';
 
+function isRecentlyDismissed(){
+  var dismissedAt = localStorage.getItem(INSTALL_DISMISS_KEY);
+  return dismissedAt && (Date.now() - Number(dismissedAt) < 7*86400000);
+}
+function isStandaloneMode(){
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+function isIOSDevice(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+}
+
 window.addEventListener('beforeinstallprompt', function(e){
   e.preventDefault();
   deferredInstallPrompt = e;
-  var dismissedAt = localStorage.getItem(INSTALL_DISMISS_KEY);
-  var recentlyDismissed = dismissedAt && (Date.now() - Number(dismissedAt) < 7*86400000);
-  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-  if(!recentlyDismissed && !isStandalone){
+  if(!isRecentlyDismissed() && !isStandaloneMode()){
     setTimeout(function(){ installBanner.classList.add('show'); }, 1800);
   }
 });
 
+/* Fallback: Safari iOS tidak pernah mengirim beforeinstallprompt,
+   jadi tampilkan banner + instruksi manual supaya tombol tetap berguna */
+if(isIOSDevice() && !isStandaloneMode() && !isRecentlyDismissed()){
+  setTimeout(function(){ installBanner.classList.add('show'); }, 1800);
+}
+
 document.getElementById('ibInstallBtn').addEventListener('click', function(){
-  installBanner.classList.remove('show');
-  if(!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  deferredInstallPrompt.userChoice.then(function(choice){
-    if(choice.outcome==='accepted'){ showToast('🎉 Status Gallery berhasil dipasang!'); }
-    deferredInstallPrompt = null;
-  });
+  if(deferredInstallPrompt){
+    installBanner.classList.remove('show');
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(choice){
+      if(choice.outcome==='accepted'){ showToast('🎉 Status Gallery berhasil dipasang!'); }
+      deferredInstallPrompt = null;
+    });
+  } else if(isIOSDevice()){
+    showToast('📲 Tap ikon Share, lalu pilih "Tambah ke Layar Utama"');
+  } else {
+    showToast('Coba buka lewat Chrome/Edge, atau app sudah terpasang sebelumnya');
+  }
 });
 document.getElementById('ibDismissBtn').addEventListener('click', function(){
   installBanner.classList.remove('show');
